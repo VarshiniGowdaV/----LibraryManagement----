@@ -58,8 +58,6 @@ typedef enum {
     EXIT
 } MenuOption;
 
-
-// Function to display the main menu
 void display_menu() {
     printf("\nLibrary Management System\n");
     printf("******Student Management******:\n");
@@ -109,11 +107,9 @@ void display_menu() {
     printf("Enter your choice: ");
 }
 
-// Function to handle the main menu logic
 void main_menu() {
     int choice;
 
-    // Authenticate the admin first
     if (!authenticate_admin()) {
         printf("Authentication failed. Exiting...\n");
         return;
@@ -122,30 +118,28 @@ void main_menu() {
     int student_id, book_id;
     char name[MAX_NAME_LENGTH], department[MAX_DEPT_LENGTH], author[MAX_AUTHOR_LENGTH], title[MAX_TITLE_LENGTH], staff_name[MAX_NAME_LENGTH];
 
-    // Load students, books, and staff from the file initially
     loadStudentsFromFile();
     loadBooksFromFile();
-    loadBorrowedBookFromFile();  // Load borrowed books initially
-    loadStaffFromFile();  // Load staff information initially
+    loadBorrowedBookFromFile();
+    loadStaffFromFile();
     loadRetunedBookFromFile();
 
     while (1) {
         display_menu();
         scanf("%d", &choice);
-        getchar();  // Consume the newline character left by scanf
+        getchar();
 
         switch (choice) {
-        // Student Management
         case ADD_STUDENT:
             printf("Enter student name: ");
             fgets(name, MAX_NAME_LENGTH, stdin);
-            name[strcspn(name, "\n")] = '\0';  // Remove the newline
+            name[strcspn(name, "\n")] = '\0';
             printf("Enter student ID: ");
             scanf("%d", &student_id);
-            getchar();  // Consume the newline
+            getchar();
             printf("Enter student department: ");
             fgets(department, MAX_DEPT_LENGTH, stdin);
-            department[strcspn(department, "\n")] = '\0';  // Remove the newline
+            department[strcspn(department, "\n")] = '\0';
             student_head = add_student(student_head, name, student_id, department);
             break;
 
@@ -158,13 +152,13 @@ void main_menu() {
         case UPDATE_STUDENT:
             printf("Enter student ID to update (RAM only): ");
             scanf("%d", &student_id);
-            getchar();  // Consume newline
+            getchar();
             printf("Enter new name: ");
             fgets(name, MAX_NAME_LENGTH, stdin);
-            name[strcspn(name, "\n")] = '\0';  // Remove newline
+            name[strcspn(name, "\n")] = '\0';
             printf("Enter new department: ");
             fgets(department, MAX_DEPT_LENGTH, stdin);
-            department[strcspn(department, "\n")] = '\0';  // Remove newline
+            department[strcspn(department, "\n")] = '\0';
             update_student(student_head, student_id, name, department);
             printf("Student updated in RAM.\n");
             break;
@@ -190,38 +184,37 @@ void main_menu() {
             break;
 
         case UPDATE_STUDENT_IN_FILE:
-            printf("Enter student ID to update (RAM and File): ");
+            printf("Enter student ID to update: ");
             scanf("%d", &student_id);
-            getchar();  // Consume newline
+            getchar();
             printf("Enter new name: ");
             fgets(name, MAX_NAME_LENGTH, stdin);
-            name[strcspn(name, "\n")] = '\0';  // Remove newline
+            name[strcspn(name, "\n")] = '\0';
             printf("Enter new department: ");
             fgets(department, MAX_DEPT_LENGTH, stdin);
-            department[strcspn(department, "\n")] = '\0';  // Remove newline
+            department[strcspn(department, "\n")] = '\0';
             updateStudentInFile(student_head, student_id, name, department);
             break;
 
         case DELETE_STUDENT_IN_FILE:
-            // Code to delete student from file
             break;
 
             // Book Management
         case ADD_BOOK:
             printf("Enter book ID: ");
             scanf("%d", &book_id);
-            getchar(); // Consume newline
+            getchar();
             printf("Enter book name: ");
             fgets(name, sizeof(name), stdin);
-            name[strcspn(name, "\n")] = 0; // Remove newline
+            name[strcspn(name, "\n")] = 0;
 
             printf("Enter book title: ");
             fgets(title, sizeof(title), stdin);
-            title[strcspn(title, "\n")] = 0; // Remove newline
+            title[strcspn(title, "\n")] = 0;
 
             printf("Enter author name: ");
             fgets(author, sizeof(author), stdin);
-            author[strcspn(author, "\n")] = 0; // Remove newline
+            author[strcspn(author, "\n")] = 0;
 
             book_head = add_book(book_head, name, title, book_id, author);
             break;
@@ -235,16 +228,16 @@ void main_menu() {
         case UPDATE_BOOK:
             printf("Enter book ID to update: ");
             scanf("%d", &book_id);
-            getchar();  // Consume newline
+            getchar();
             printf("Enter new book name: ");
             fgets(name, MAX_NAME_LENGTH, stdin);
-            name[strcspn(name, "\n")] = '\0';  // Remove newline
+            name[strcspn(name, "\n")] = '\0';
             printf("Enter new author name: ");
             fgets(author, MAX_AUTHOR_LENGTH, stdin);
-            author[strcspn(author, "\n")] = '\0';  // Remove newline
+            author[strcspn(author, "\n")] = '\0';
             printf("Enter new book title: ");
             fgets(title, MAX_TITLE_LENGTH, stdin);
-            title[strcspn(title, "\n")] = '\0';  // Remove newline
+            title[strcspn(title, "\n")] = '\0';
             update_book(book_id, name, author, title);
             break;
 
@@ -263,6 +256,47 @@ void main_menu() {
             printf("Books loaded from file.\n");
             break;
 
+        case ADD_BOOK_IN_FILE:
+            addBooksToFile();
+            printf("Books added to file.\n");
+            break;
+
+        case UPDATE_BOOK_IN_FILE:
+        {
+            int book_id;
+            char title[MAX_TITLE_LENGTH];
+            char author[MAX_AUTHOR_LENGTH];
+
+            printf("Enter book ID to update: ");
+            scanf("%d", &book_id);
+            getchar();
+
+            printf("Enter new title: ");
+            fgets(title, MAX_TITLE_LENGTH, stdin);
+            title[strcspn(title, "\n")] = '\0';
+
+            printf("Enter new author: ");
+            fgets(author, MAX_AUTHOR_LENGTH, stdin);
+            author[strcspn(author, "\n")] = '\0';
+
+            updateBookInFile(book_id, 1, title);
+            updateBookInFile(book_id, 2, author);
+
+            printf("Book with ID %d has been updated.\n", book_id);
+        }
+        break;
+
+        case DELETE_BOOK_IN_FILE:
+        {
+            int book_id;
+            printf("Enter book ID to delete: ");
+            scanf("%d", &book_id);
+            deleteBookInFile(book_id);
+
+            printf("Book with ID %d has been deleted.\n", book_id);
+        }
+        break;
+
             // Borrowed Books Management
         case RECORD_BORROWED_BOOK:
             record_borrowed_book();
@@ -278,22 +312,20 @@ void main_menu() {
             break;
 
         case ADD_STAFF:
-            // Declare staff name and department variables if not already declared
             char staff_name[MAX_NAME_LENGTH];
             char staff_department[MAX_DEPT_LENGTH];
 
             printf("Enter staff name: ");
             fgets(staff_name, MAX_NAME_LENGTH, stdin);
-            staff_name[strcspn(staff_name, "\n")] = '\0';  // Remove newline
+            staff_name[strcspn(staff_name, "\n")] = '\0';
 
             printf("Enter staff ID: ");
             scanf("%d", &staff_id);
-            getchar();  // Consume the newline
+            getchar();
 
-            // Add staff department input
             printf("Enter staff department: ");
             fgets(staff_department, MAX_DEPT_LENGTH, stdin);
-            staff_department[strcspn(staff_department, "\n")] = '\0';  // Remove newline
+            staff_department[strcspn(staff_department, "\n")] = '\0';
 
             staff_head = add_staff(staff_head, staff_name, staff_id, staff_department);
             break;
@@ -301,38 +333,32 @@ void main_menu() {
         case DELETE_STAFF:
             printf("Enter staff ID to delete: ");
             scanf("%d", &staff_id);
-            delete_staff(staff_head, staff_id);  // Pass both staff_head and staff_id
+            delete_staff(staff_head, staff_id);
             break;
 
         case UPDATE_STAFF:
             printf("Enter staff ID to update: ");
             scanf("%d", &staff_id);
-            getchar();  // Consume newline
+            getchar();
             printf("Enter new name: ");
             fgets(staff_name, MAX_NAME_LENGTH, stdin);
-            staff_name[strcspn(staff_name, "\n")] = '\0';  // Remove newline
+            staff_name[strcspn(staff_name, "\n")] = '\0';
 
-            // Add input for department as well
             printf("Enter new department: ");
             fgets(staff_department, MAX_DEPT_LENGTH, stdin);
-            staff_department[strcspn(staff_department, "\n")] = '\0';  // Remove newline
+            staff_department[strcspn(staff_department, "\n")] = '\0';
 
-            // Now call the update_staff function with the correct number of arguments
             update_staff(staff_head, staff_id, staff_name, staff_department);
             break;
 
         case SEARCH_STAFF:
             printf("Enter staff ID to search: ");
             scanf("%d", &staff_id);
-
-            // Declare staff_member as a pointer to struct staff
             struct staff* staff_member = search_staff(staff_head, staff_id);
 
             if (staff_member != NULL) {
-                // If staff member is found, display only the ID
                 printf("Staff found: ID: %d\n", staff_member->staff_id);
             } else {
-                // If staff member is not found, display a message
                 printf("Staff with ID %d not found.\n", staff_id);
             }
             break;
@@ -354,24 +380,21 @@ void main_menu() {
         case UPDATE_STAFF_IN_FILE:
             printf("Enter staff ID to update (RAM and File): ");
             scanf("%d", &staff_id);
-            getchar();  // Consume newline
+            getchar();
             printf("Enter new name: ");
             fgets(staff_name, MAX_NAME_LENGTH, stdin);
-            staff_name[strcspn(staff_name, "\n")] = '\0';  // Remove newline
+            staff_name[strcspn(staff_name, "\n")] = '\0';
             updateStaffInFile(staff_head, staff_id, staff_name);
             break;
 
-            // Case for deleting a staff member from the file
         case DELETE_STAFF_IN_FILE:
             printf("Enter staff ID to delete from the file: ");
             scanf("%d", &staff_id);
-
-            // Open the staff file for reading
             FILE* file = fopen("StaffRecords.txt", "r+");
             if (file == NULL) {
                 printf("Error: Could not open the staff file.\n");
             } else {
-                deleteStaffInFile(file, staff_id);  // Call the function to delete the staff
+                deleteStaffInFile(staff_id);
             }
             break;
 
