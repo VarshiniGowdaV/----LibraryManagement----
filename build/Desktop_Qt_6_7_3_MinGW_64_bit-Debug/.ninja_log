@@ -21,3 +21,6 @@
 155	302	7590854953047681	------librarymanagement------.exe	c814b7ec9c82a88f
 32	119	7590858317259540	CMakeFiles/------librarymanagement------.dir/admin.c.obj	7e8bdd0e9c84c6da
 120	272	7590858318128866	------librarymanagement------.exe	c814b7ec9c82a88f
+6	148	7591391128848503	CMakeFiles/------librarymanagement------.dir/book.c.obj	35f1be6bd00aa9a0
+13	167	7591391128918539	CMakeFiles/------librarymanagement------.dir/borrowedbook.c.obj	e6c5d6d5962c3e57
+167	387	7591391130432879	------librarymanagement------.exe	c814b7ec9c82a88f

@@ -60,6 +60,7 @@ void update_student(struct student* head, int student_id, const char* new_name, 
     }
 
     printf("Student with ID %d  found\n", student_id);
+    return fails;
 }
 
 void view_students(struct student* head)

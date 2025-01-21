@@ -43,25 +43,26 @@ void record_returned_book() {
     scanf("%d", &student_id);
     if (student_id <= 0 || !is_Valid_Return_date(student_id)) {
         printf(" Invalid or non-existent Student ID.\n");
-        return successfully;
+        return fails;
     }
 
     printf("Enter Book ID: ");
     scanf("%d", &book_id);
     if (!is_Valid_Return_date(book_id)) {
         printf(" Invalid or non-existent Book ID.\n");
-        return successfully;
+        return fails;
     }
 
     printf("Enter Returned Date (YYYY-MM-DD): ");
     scanf("%s", returned_date);
     if (!is_valid_date(returned_date)) {
         printf(" Invalid date format.\n");
-        return successfully;
+        return fails;
     }
 
     returned_books_head = add_returned_book(returned_books_head, student_id, book_id, returned_date);
     printf("Returned book recorded successfully.\n");
+    return successfully;
 }
 
 
@@ -95,26 +96,19 @@ void print_returned_books() {
     }
 }
 
-#include <stdio.h>
-#include <time.h>
-
 int is_Valid_Return_date(const char* date)
 {
     int day, month, year;
 
     if (sscanf(date, "%d-%d-%d", &day, &month, &year) != 3)
     {
-        return successfully;
+        return fails;
     }
     if ((year < 2000 || year > 3000) || (month < 1 || month > 12) || (day < 1 || day > 31))
     {
-        return successfully; // Invalid year, month, or day
+        return fails;
     }
-
-    // Days in each month (non-leap year by default)
     int days_in_month[] = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
-
-    // Adjust for leap year
     if ((year % 4 == 0 && year % 100 != 0) || (year % 400 == 0))
     {
         days_in_month[1] = 29;
@@ -122,7 +116,7 @@ int is_Valid_Return_date(const char* date)
 
     if (day > days_in_month[month - 1])
     {
-        return successfully;
+        return fails;
     }
 
     time_t t = time(NULL);
@@ -136,8 +130,8 @@ int is_Valid_Return_date(const char* date)
         (year == current_year && month > current_month) ||
         (year == current_year && month == current_month && day > current_day))
     {
-        return successfully;
+        return fails;
     }
 
-    return fails;
+    return successfully;
 }

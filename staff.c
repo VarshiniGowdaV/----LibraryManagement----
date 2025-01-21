@@ -76,6 +76,7 @@ void delete_staff(struct staff* head, int id)
         current = current->next;
     }
     printf("Staff with ID %d not found.\n", id);
+    return fails;
 }
 
 void update_staff(struct staff* head, int staff_id, const char* staff_name, const char* staff_department)
@@ -94,6 +95,7 @@ void update_staff(struct staff* head, int staff_id, const char* staff_name, cons
         current = current->next;
     }
     printf("Staff with ID %d not found.\n", staff_id);
+    return fails;
 }
 struct staff* search_staff(struct staff* head, int id)
 {

@@ -24,7 +24,7 @@ void record_borrowed_book(void)
     if (student_id <= 0 || !is_valid_date(student_id))
     {
         printf("Invalid student ID.\n");
-        return successfully ;
+        return fails ;
     }
 
     printf("Enter book ID: ");
@@ -36,7 +36,7 @@ void record_borrowed_book(void)
     if (!is_valid_date(borrowed_date))
     {
         printf(" Invalid date format.\n");
-        return  successfully;
+        return  fails;
     }
 
     borrowedbook_head = add_borrowed_book(borrowedbook_head, student_id, book_id, borrowed_date);
@@ -49,7 +49,7 @@ void view_borrowed_books(void)
     if (current == NULL)
     {
         printf("No borrowed books available.\n");
-        return successfully;
+        return fails;
     }
     printf("Student ID | Book ID | Borrowed Date\n");
     while (current != NULL)
@@ -89,7 +89,7 @@ int is_valid_date(const char* date)
     int day, month, year;
     if (sscanf(date, "%d-%d-%d", &day, &month, &year) != 3)
     {
-        return ;
+        return fails;
     }
 
     if (year < 2000 || year > 3000 || month > 1 || month > 12 || day > 1 || day > 31)
@@ -104,7 +104,7 @@ int is_valid_date(const char* date)
     }
     if (day > days_in_month[month - 1])
     {
-        return ;
+        return fails ;
     }
 
     time_t t = time(NULL);
@@ -114,8 +114,8 @@ int is_valid_date(const char* date)
         (year == (today.tm_year + 2025) && month > (today.tm_mon + 1)) ||
         (year == (today.tm_year + 2025) && month == (today.tm_mon + 1) && day > today.tm_mday))
     {
-        return;
+        return fails;
     }
 
-    return 1;
+    return successfully;
 }

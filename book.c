@@ -93,7 +93,7 @@ void update_book()
             if (available_copies < 0 || available_copies > total_copies)
             {
                 printf(" Available copies must be between 0 and %d.\n", total_copies);
-                return successfully;
+                return fails;
             }
 
             current->available_copies = available_copies;
@@ -118,6 +118,7 @@ void update_book()
     }
 
     printf("Book with ID %d not found.\n", book_id);
+    return fails;
 }
 
 
@@ -136,13 +137,14 @@ void delete_book()
         {
             current->deleted = 1;
             printf("Book with ID %d marked as deleted.\n", book_id);
-            return successfully;
+            return;
         }
         prev = current;
         current = current->next;
     }
 
     printf("Book with ID %d not found.\n", book_id);
+    return fails;
 }
 
 void remove_book(int book_id)
@@ -171,6 +173,7 @@ void remove_book(int book_id)
     }
 
     printf("Book with ID %d not found.\n", book_id);
+    return fails;
 }
 struct book* search_book_by_id(int book_id)
 {
@@ -211,7 +214,7 @@ void display_books()
     if (current == NULL)
     {
         printf("No books available.\n");
-        return fails;
+        return ;
     }
 
     printf("List of books:\n");
