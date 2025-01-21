@@ -1,13 +1,35 @@
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include "book.h"
+enum returnvalue
+{
+    fails=0,
+    successfully
+};
 
 struct book* book_head = NULL;
 
 struct book* add_book(struct book* book_head, char* name, char* title, int book_id, char* author)
 {
+
+    if (book_id <= 0)
+    {
+        printf("Book ID must be a positive integer.\n");
+        return book_head;
+    }
+
+    struct book* temp = book_head;
+    while (temp != NULL)
+    {
+        if (temp->book_id == book_id)
+        {
+            printf(" Book ID %d already exists.\n", book_id);
+            return book_head;
+        }
+        temp = temp->next;
+    }
+
     struct book* new_book = (struct book*)malloc(sizeof(struct book));
     if (!new_book)
     {
@@ -20,28 +42,62 @@ struct book* add_book(struct book* book_head, char* name, char* title, int book_
     strncpy(new_book->title, title, MAX_TITLE_LENGTH);
     new_book->total_copies = 0;
     new_book->available_copies = 0;
-    new_book->deleted = 0;
+
     new_book->next = NULL;
-    if (book_head == NULL) {
+
+    if (book_head == NULL)
+    {
         book_head = new_book;
-    } else {
+    }
+    else
+    {
         struct book* current = book_head;
-        while (current->next != NULL) {
+        while (current->next != NULL)
+        {
             current = current->next;
         }
         current->next = new_book;
     }
 
+    printf("Book added successfully.\n");
     return book_head;
 }
-void update_book() {
+
+void update_book()
+{
     int book_id;
     printf("Enter book ID to update: ");
     scanf("%d", &book_id);
 
     struct book* current = book_head;
-    while (current != NULL) {
-        if (current->book_id == book_id) {
+    while (current != NULL)
+    {
+        if (current->book_id == book_id)
+        {
+            printf("Enter new total copies: ");
+            int total_copies;
+            scanf("%d", &total_copies);
+
+            if (total_copies < 0)
+            {
+                printf("Total copies cannot be negative.\n");
+                return fails;
+            }
+
+            current->total_copies = total_copies;
+
+            printf("Enter new available copies: ");
+            int available_copies;
+            scanf("%d", &available_copies);
+
+            if (available_copies < 0 || available_copies > total_copies)
+            {
+                printf(" Available copies must be between 0 and %d.\n", total_copies);
+                return successfully;
+            }
+
+            current->available_copies = available_copies;
+
             printf("Enter new book name: ");
             getchar();
             fgets(current->name, MAX_NAME_LENGTH, stdin);
@@ -52,15 +108,11 @@ void update_book() {
             current->author[strcspn(current->author, "\n")] = '\0';
 
             printf("Enter new book title: ");
-            fgets(current->title, 100, stdin);
+            fgets(current->title, MAX_TITLE_LENGTH, stdin);
             current->title[strcspn(current->title, "\n")] = '\0';
 
-            printf("Enter new total copies: ");
-            scanf("%d", &current->total_copies);
-            current->available_copies = current->total_copies;
-
             printf("Book updated successfully.\n");
-            return;
+            return successfully;
         }
         current = current->next;
     }
@@ -68,7 +120,9 @@ void update_book() {
     printf("Book with ID %d not found.\n", book_id);
 }
 
-void delete_book() {
+
+void delete_book()
+{
     int book_id;
     printf("Enter book ID to delete: ");
     scanf("%d", &book_id);
@@ -76,11 +130,13 @@ void delete_book() {
     struct book* current = book_head;
     struct book* prev = NULL;
 
-    while (current != NULL) {
-        if (current->book_id == book_id) {
+    while (current != NULL)
+    {
+        if (current->book_id == book_id)
+        {
             current->deleted = 1;
             printf("Book with ID %d marked as deleted.\n", book_id);
-            return;
+            return successfully;
         }
         prev = current;
         current = current->next;
@@ -89,20 +145,26 @@ void delete_book() {
     printf("Book with ID %d not found.\n", book_id);
 }
 
-void remove_book(int book_id) {
+void remove_book(int book_id)
+{
     struct book* current = book_head;
     struct book* prev = NULL;
 
-    while (current != NULL) {
-        if (current->book_id == book_id) {
-            if (prev == NULL) {
+    while (current != NULL)
+    {
+        if (current->book_id == book_id)
+        {
+            if (prev == NULL)
+            {
                 book_head = current->next;
-            } else {
+            }
+            else
+            {
                 prev->next = current->next;
             }
             free(current);
             printf("Book with ID %d deleted from list.\n", book_id);
-            return;
+            return successfully;
         }
         prev = current;
         current = current->next;
@@ -110,17 +172,21 @@ void remove_book(int book_id) {
 
     printf("Book with ID %d not found.\n", book_id);
 }
-struct book* search_book_by_id(int book_id) {
+struct book* search_book_by_id(int book_id)
+{
     struct book* current = book_head;
-    while (current != NULL) {
-        if (current->book_id == book_id) {
+    while (current != NULL)
+    {
+        if (current->book_id == book_id)
+        {
             return current;
         }
         current = current->next;
     }
     return NULL;
 }
-struct book* search_book() {
+struct book* search_book()
+{
     char search_term[MAX_NAME_LENGTH];
     printf("Enter book name or author to search: ");
     getchar();
@@ -128,26 +194,34 @@ struct book* search_book() {
     search_term[strcspn(search_term, "\n")] = '\0';
 
     struct book* current = book_head;
-    while (current != NULL) {
-        if (strstr(current->name, search_term) != NULL || strstr(current->author, search_term) != NULL) {
+    while (current != NULL)
+    {
+        if (strstr(current->name, search_term) != NULL ||
+            strstr(current->author, search_term) != NULL)
+        {
             return current;
         }
         current = current->next;
     }
     return NULL;
 }
-void display_books() {
+void display_books()
+{
     struct book* current = book_head;
-    if (current == NULL) {
+    if (current == NULL)
+    {
         printf("No books available.\n");
-        return;
+        return fails;
     }
 
     printf("List of books:\n");
-    while (current != NULL) {
-        if (current->deleted == 0) {
-            printf("ID: %d, Name: %s, Author: %s, Title: %s, Total Copies: %d, Available Copies: %d\n",
-                   current->book_id, current->name, current->author, current->title, current->total_copies, current->available_copies);
+    while (current != NULL)
+    {
+        if (current->deleted == 0)
+        {
+            printf("ID: %d, Name: %s, Author: %s, Title: %s, Total Copies: "
+                   "%d, Available Copies: %d\n",current->book_id, current->name, current->author,
+                   current->title, current->total_copies, current->available_copies);
         }
         current = current->next;
     }

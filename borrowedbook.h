@@ -14,4 +14,5 @@ extern struct borrowedbook* borrowedbook_head;
 void record_borrowed_book(void);
 void view_borrowed_books(void);
 struct borrowedbook* add_borrowed_book(struct borrowedbook* head, int student_id, int book_id, const char* borrowed_date);
+int is_valid_date(const char* date);
 #endif // BORROWEDBOOK_H

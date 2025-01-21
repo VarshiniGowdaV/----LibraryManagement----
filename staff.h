@@ -22,7 +22,7 @@ void delete_staff(struct staff* head, int id);
 void update_staff(struct staff* head, int staff_id, const char* staff_name, const char* staff_department);
 struct staff* search_staff(struct staff* head, int id);
 void view_staff(struct staff* head);
-void sortStaffByName();
-void sortStaffById(struct staff* head);
+void sortStaffsByName();
+void sortStaffsById(struct staff* head);
 int getTotalStaffCount();
 #endif // STAFF_H

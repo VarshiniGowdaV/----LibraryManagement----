@@ -8,13 +8,22 @@
 #include "borrowedbook.h"
 #include "filehanding.h"
 #include "retunedbook.h"
+
+#define Books_FILE "books.txt"
+#define student_FILE "student.txt"
+#define Staff_FILE "staff.txt"
+#define Returned_book_FILE "returned_books.txt"
 #define BORROWED_BOOKS_FILE "borrowed_books.txt"
 struct borrowed_book_node *borrowed_books_head = NULL;
-static FILE* openFile(const char* filename) {
+
+static FILE* openFile(const char* filename)
+{
     FILE* file = fopen(filename, "r+");
-    if (!file) {
+    if (!file)
+    {
         file = fopen(filename, "w+");
-        if (!file) {
+        if (!file)
+        {
             printf("Error opening file: %s\n", filename);
             exit(1);
         }
@@ -22,26 +31,30 @@ static FILE* openFile(const char* filename) {
     return file;
 }
 
-void loadStudentsFromFile() {
+void loadStudentsFromFile()
+{
     FILE* file = openFile("students.txt");
     fseek(file, 0, SEEK_END);
     long file_size = ftell(file);
     fseek(file, 0, SEEK_SET);
-
-    if (file_size > 0) {
+    if (file_size > 0)
+    {
         struct student temp_student;
-        while (fread(&temp_student, sizeof(struct student), 1, file)) {
+        while (fread(&temp_student, sizeof(struct student), 1, file))
+        {
             student_head = add_student(student_head, temp_student.name, temp_student.student_id, temp_student.department);
         }
     }
     fclose(file);
 }
-void addStudentToFile() {
+void addStudentToFile()
+{
     FILE* file = openFile("students.txt");
 
     struct student* new_student = student_head;
     fseek(file, 0, SEEK_END);
-    while (new_student != NULL) {
+    while (new_student != NULL)
+    {
         fprintf(file,"%5d %-99s %-49s\n",new_student->student_id ,new_student->name,new_student->department);
         new_student = new_student->next;
     }
@@ -53,7 +66,7 @@ void deleteStudentInFile(int studentId)
     if (file == NULL)
     {
         printf("Error opening file for deletion.\n");
-        return;
+        return ;
     }
 
     char line[512];
@@ -84,14 +97,17 @@ void deleteStudentInFile(int studentId)
     fclose(file);
 }
 
-long findStudentPosition(int student_id) {
+long findStudentPosition(int student_id)
+{
     FILE* file = openFile("students.txt");
     fseek(file, 0, SEEK_SET);
     struct student temp_student;
     long position = 0;
 
-    while (fread(&temp_student, sizeof(struct student), 1, file)) {
-        if (temp_student.student_id == student_id) {
+    while (fread(&temp_student, sizeof(struct student), 1, file))
+    {
+        if (temp_student.student_id == student_id)
+        {
             fclose(file);
             return position;
         }
@@ -131,7 +147,7 @@ void updateStudentInFile(int studentId, int fieldToUpdate, void *newValue)
                 fseek(file, position + 5, SEEK_SET);
                 fprintf(file, "%-99s", (char *)newValue);
                 break;
-            case 2: // Update Department
+            case 2:
                 fseek(file, position + 104, SEEK_SET);
                 fprintf(file, "%-49s", (char *)newValue);
                 break;
@@ -152,12 +168,14 @@ void updateStudentInFile(int studentId, int fieldToUpdate, void *newValue)
     fclose(file);
 }
 
-void save_student_to_file() {
+void save_student_to_file()
+{
     FILE* file = openFile("students.txt");
 
     struct student* current = student_head;
     fseek(file, 0, SEEK_SET);
-    while (current != NULL) {
+    while (current != NULL)
+    {
         fwrite(current, sizeof(struct student), 1, file);
         current = current->next;
     }
@@ -166,26 +184,31 @@ void save_student_to_file() {
 }
 //***********************************************************************************************************************//
 
-void loadBooksFromFile() {
+void loadBooksFromFile()
+{
     FILE* file = openFile("books.txt");
     fseek(file, 0, SEEK_END);
     long file_size = ftell(file);
     fseek(file, 0, SEEK_SET);
 
-    if (file_size > 0) {
+    if (file_size > 0)
+    {
         struct book temp_book;
-        while (fread(&temp_book, sizeof(struct book), 1, file)) {
+        while (fread(&temp_book, sizeof(struct book), 1, file))
+        {
             book_head = add_book(book_head, temp_book.name, temp_book.title, temp_book.book_id, temp_book.author);
         }
     }
     fclose(file);
 }
-void addBooksToFile() {
+void addBooksToFile()
+{
     FILE* file = openFile("books.txt");
 
     struct book* current = book_head;
     fseek(file, 0, SEEK_END);
-    while (current != NULL) {
+    while (current != NULL)
+    {
         fprintf(file, "%5d %-99s %-49s\n", current->book_id, current->title, current->author);
         current = current->next;
     }
@@ -229,14 +252,17 @@ void deleteBookInFile(int bookId)
     fclose(file);
 }
 
-long findBooksPosition(int book_id) {
+long findBooksPosition(int book_id)
+{
     FILE* file = openFile("books.txt");
     fseek(file, 0, SEEK_SET);
     struct book temp_book;
     long position = 0;
 
-    while (fread(&temp_book, sizeof(struct book), 1, file)) {
-        if (temp_book.book_id == book_id) {
+    while (fread(&temp_book, sizeof(struct book), 1, file))
+    {
+        if (temp_book.book_id == book_id)
+        {
             fclose(file);
             return position;
         }
@@ -298,12 +324,14 @@ void updateBookInFile(int bookId, int fieldToUpdate, void *newValue)
 }
 
 
-void save_Book_To_File() {
+void save_Book_To_File()
+{
     FILE* file = openFile("books.txt");
 
     struct book* current = book_head;
     fseek(file, 0, SEEK_SET);
-    while (current != NULL) {
+    while (current != NULL)
+    {
         fwrite(current, sizeof(struct book), 1, file);
         current = current->next;
     }
@@ -313,41 +341,49 @@ void save_Book_To_File() {
 
 //*****************************************************************************************************************//
 
-void loadStaffFromFile() {
+void loadStaffFromFile()
+{
     FILE* file = openFile("staff.txt");
     fseek(file, 0, SEEK_END);
     long file_size = ftell(file);
     fseek(file, 0, SEEK_SET);
 
-    if (file_size > 0) {
+    if (file_size > 0)
+    {
         struct staff temp_staff;
-        while (fread(&temp_staff, sizeof(struct staff), 1, file)) {
+        while (fread(&temp_staff, sizeof(struct staff), 1, file))
+        {
             staff_head = add_staff(staff_head, temp_staff.name, temp_staff.staff_id, temp_staff.department);
         }
     }
     fclose(file);
 }
 
-void addStaffToFile() {
+void addStaffToFile()
+{
     FILE* file = openFile("staff.txt");
 
     struct staff* new_staff = staff_head;
     fseek(file, 0, SEEK_END);
-    while (new_staff != NULL) {
+    while (new_staff != NULL)
+    {
         fprintf(file, "%5d %-99s %-49s\n", new_staff->staff_id, new_staff->name, new_staff->department);
         new_staff = new_staff->next;
     }
     fclose(file);
 }
 
-long findStaffPosition(int staff_id) {
+long findStaffPosition(int staff_id)
+{
     FILE* file = openFile("staff.txt");
     fseek(file, 0, SEEK_SET);
     struct staff temp_staff;
     long position = 0;
 
-    while (fread(&temp_staff, sizeof(struct staff), 1, file)) {
-        if (temp_staff.staff_id == staff_id) {
+    while (fread(&temp_staff, sizeof(struct staff), 1, file))
+    {
+        if (temp_staff.staff_id == staff_id)
+        {
             fclose(file);
             return position;
         }
@@ -451,29 +487,34 @@ void updateStaffInFile(int staffId, int fieldToUpdate, void *newValue)
     fclose(file);
 }
 
-void saveStaffToFile() {
+void saveStaffToFile()
+{
     FILE* file = openFile("staff.txt");
 
     struct staff* current = staff_head;
     fseek(file, 0, SEEK_SET);
 
-    while (current != NULL) {
+    while (current != NULL)
+    {
         fwrite(current, sizeof(struct staff), 1, file);
         current = current->next;
     }
 
     fclose(file);
 }
-//***********************************************************************************************************//
-void loadBorrowedBookFromFile(void) {
+//****************************************************************************************************************//
+void loadBorrowedBookFromFile(void)
+{
     FILE* file = openFile(BORROWED_BOOKS_FILE);
     fseek(file, 0, SEEK_END);
     long file_size = ftell(file);
     fseek(file, 0, SEEK_SET);
 
-    if (file_size > 0) {
+    if (file_size > 0)
+    {
         struct borrowedbook temp_borrowed_book;
-        while (fread(&temp_borrowed_book, sizeof(struct borrowedbook), 1, file)) {
+        while (fread(&temp_borrowed_book, sizeof(struct borrowedbook), 1, file))
+        {
             borrowedbook_head = add_borrowed_book(borrowedbook_head, temp_borrowed_book.student_id, temp_borrowed_book.book_id, temp_borrowed_book.borrowed_date);
         }
     }
@@ -482,13 +523,15 @@ void loadBorrowedBookFromFile(void) {
     printf("Borrowed books loaded successfully.\n");
 }
 
-void save_Borrowed_Book_To_File(){
+void save_Borrowed_Book_To_File()
+{
     FILE* file = openFile(BORROWED_BOOKS_FILE);
     struct borrowedbook* current = borrowedbook_head;
 
     fseek(file, 0, SEEK_SET);
 
-    while (current != NULL) {
+    while (current != NULL)
+    {
         fwrite(current, sizeof(struct borrowedbook), 1, file);
         current = current->next;
     }
@@ -498,15 +541,18 @@ void save_Borrowed_Book_To_File(){
 }
 //*******************************************************************************************************************//
 
-void save_Retuned_Book_To_File() {
+void save_Retuned_Book_To_File()
+{
     FILE* file = fopen("returned_books.txt", "w");
-    if (file == NULL) {
+    if (file == NULL)
+    {
         printf("Error: Could not open file for saving returned books.\n");
         return;
     }
 
     struct returnedbook* temp = returned_books_head;
-    while (temp != NULL) {
+    while (temp != NULL)
+    {
         fprintf(file, "%d %d %d %s\n", temp->returned_id, temp->student_id, temp->book_id, temp->returned_date);
         temp = temp->next;
     }
@@ -515,9 +561,11 @@ void save_Retuned_Book_To_File() {
     printf("Returned books have been saved to the file.\n");
 }
 
-void loadRetunedBookFromFile() {
+void loadRetunedBookFromFile()
+{
     FILE* file = fopen("returned_books.txt", "r");
-    if (file == NULL) {
+    if (file == NULL)
+    {
         printf("Error: Could not open file for loading returned books.\n");
         return;
     }
@@ -531,9 +579,11 @@ void loadRetunedBookFromFile() {
     int returned_id, student_id, book_id;
     char returned_date[MAX_DATE_LENGTH];
 
-    while (fscanf(file, "%d %d %d %s", &returned_id, &student_id, &book_id, returned_date) == 4) {
+    while (fscanf(file, "%d %d %d %s", &returned_id, &student_id, &book_id, returned_date) == 4)
+    {
         struct returnedbook* new_book = (struct returnedbook*)malloc(sizeof(struct returnedbook));
-        if (new_book == NULL) {
+        if (new_book == NULL)
+        {
             printf("Memory allocation failed while loading returned books.\n");
             fclose(file);
             return;

@@ -1,0 +1,23 @@
+# ninja log v6
+40	269	7590680522745278	CMakeFiles/------librarymanagement------.dir/filehanding.c.obj	8296d4fd2eaffe75
+37	139	7590804351811784	CMakeFiles/------librarymanagement------.dir/borrowedbook.c.obj	e6c5d6d5962c3e57
+42	144	7587121819645480	CMakeFiles/------librarymanagement------.dir/main.c.obj	aed9f26031a2a8c9
+158	322	7590617488221361	------librarymanagement------.exe	c814b7ec9c82a88f
+30	401	7590663663656732	CMakeFiles/------librarymanagement------.dir/main1.c.obj	6fd38dd76af80718
+7	109	7590684820294465	CMakeFiles/------librarymanagement------.dir/student.c.obj	fe0e394018ac1f45
+96	281	7590802418146892	CMakeFiles/------librarymanagement------.dir/book.c.obj	35f1be6bd00aa9a0
+102	283	7590802418308601	CMakeFiles/------librarymanagement------.dir/staff.c.obj	6700daeacfa63adb
+36	159	7590804813054325	CMakeFiles/------librarymanagement------.dir/retunedbook.c.obj	5428940406e9e2c5
+6	91	7590602750563336	CMakeFiles/------librarymanagement------.dir/admin.c.obj	7e8bdd0e9c84c6da
+37	141	7590804945536852	CMakeFiles/------librarymanagement------.dir/retunedbook.c.obj	5428940406e9e2c5
+142	344	7590804946611051	------librarymanagement------.exe	c814b7ec9c82a88f
+7	772	7590845656376413	CMakeFiles/------librarymanagement------.dir/retunedbook.c.obj	5428940406e9e2c5
+775	1084	7590845664066626	------librarymanagement------.exe	c814b7ec9c82a88f
+38	145	7590846763450123	CMakeFiles/------librarymanagement------.dir/retunedbook.c.obj	5428940406e9e2c5
+147	294	7590846764551136	------librarymanagement------.exe	c814b7ec9c82a88f
+40	166	7590854356571230	CMakeFiles/------librarymanagement------.dir/admin.c.obj	7e8bdd0e9c84c6da
+168	345	7590854357853394	------librarymanagement------.exe	c814b7ec9c82a88f
+39	154	7590854951847448	CMakeFiles/------librarymanagement------.dir/admin.c.obj	7e8bdd0e9c84c6da
+155	302	7590854953047681	------librarymanagement------.exe	c814b7ec9c82a88f
+32	119	7590858317259540	CMakeFiles/------librarymanagement------.dir/admin.c.obj	7e8bdd0e9c84c6da
+120	272	7590858318128866	------librarymanagement------.exe	c814b7ec9c82a88f

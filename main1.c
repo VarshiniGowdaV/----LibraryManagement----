@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdbool.h>
 #include "admin.h"
 #include "student.h"
 #include "filehanding.h"
@@ -57,6 +58,10 @@ typedef enum {
 
     EXIT
 } MenuOption;
+enum returnvalue{
+    fails=0,
+    successfull
+};
 
 void display_menu() {
     printf("\nLibrary Management System\n");
@@ -107,12 +112,12 @@ void display_menu() {
     printf("Enter your choice: ");
 }
 
-void main_menu() {
+int main_menu() {
     int choice;
 
     if (!authenticate_admin()) {
         printf("Authentication failed. Exiting...\n");
-        return;
+        return successfull;
     }
 
     int student_id, book_id;
@@ -124,7 +129,7 @@ void main_menu() {
     loadStaffFromFile();
     loadRetunedBookFromFile();
 
-    while (1) {
+    while (true) {
         display_menu();
         scanf("%d", &choice);
         getchar();
@@ -150,7 +155,7 @@ void main_menu() {
             break;
 
         case UPDATE_STUDENT:
-            printf("Enter student ID to update (RAM only): ");
+            printf("Enter student ID to update: ");
             scanf("%d", &student_id);
             getchar();
             printf("Enter new name: ");
@@ -199,7 +204,6 @@ void main_menu() {
         case DELETE_STUDENT_IN_FILE:
             break;
 
-            // Book Management
         case ADD_BOOK:
             printf("Enter book ID: ");
             scanf("%d", &book_id);
@@ -297,7 +301,6 @@ void main_menu() {
         }
         break;
 
-            // Borrowed Books Management
         case RECORD_BORROWED_BOOK:
             record_borrowed_book();
             break;
@@ -416,10 +419,11 @@ void main_menu() {
 
         case EXIT:
             printf("Exiting...\n");
-            return;
+            return successfull;
 
         default:
             printf("Invalid choice. Please try again.\n");
         }
     }
+    return fails;
 }

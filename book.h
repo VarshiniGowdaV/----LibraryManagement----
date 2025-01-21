@@ -5,7 +5,6 @@
 #define MAX_DEPT_LENGTH 30
 #define MAX_AUTHOR_LENGTH 100
 #define MAX_TITLE_LENGTH 150
-//#define RECORD_SIZE sizeof(struct Book)
 #define RECORD_SIZE (10 + MAX_NAME_LENGTH + MAX_AUTHOR_LENGTH + MAX_TITLE_LENGTH + 4 + 4)
 struct book {
     int book_id;

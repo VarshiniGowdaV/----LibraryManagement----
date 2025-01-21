@@ -12,12 +12,10 @@ extern FILE* studentFile;
 
 void openStudentFileForReadingWriting();
 void closeStudentFile();
-void serializeStudentRecord(const struct student* student, char *buffer);
-void deserializeStudentRecord(const char *buffer, struct student *student);
 void loadStudentsFromFile();
-void writeStudentsToFile();
 void addStudentToFile();
 void deleteStudentInFile(int studentId);
+void updateStudentInFile();
 long findStudentPosition();
 void save_student_to_file();
 

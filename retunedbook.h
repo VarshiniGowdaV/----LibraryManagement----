@@ -16,5 +16,5 @@ struct returnedbook* add_returned_book(struct returnedbook* head, int student_id
 void record_returned_book();
 void view_returned_books();
 void print_returned_books();
-
+int is_Valid_Return_date(const char* date);
 #endif  // RETURNEDBOOK_H
